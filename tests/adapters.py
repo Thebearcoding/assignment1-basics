@@ -1,4 +1,6 @@
 from __future__ import annotations
+from cs336_basics.nn_utils import Linear
+from cs336_basics.tokenizer import BPETokenizer
 
 import os
 from collections.abc import Iterable
@@ -28,8 +30,9 @@ def run_linear(
     Returns:
         Float[Tensor, "... d_out"]: The transformed output of your linear module.
     """
-
-    raise NotImplementedError
+    linear = Linear(d_in, d_out, device=in_features.device, dtype=in_features.dtype)
+    linear.weight.data.copy_(weights)
+    return linear(in_features)
 
 
 def run_embedding(
@@ -559,7 +562,7 @@ def get_tokenizer(
     Returns:
         A BPE tokenizer that uses the provided vocab, merges, and special tokens.
     """
-    raise NotImplementedError
+    return BPETokenizer(vocab, merges, special_tokens)
 
 
 def run_train_bpe(
